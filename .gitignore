@@ -1,0 +1,25 @@
+# Ignore temporary files and cache
+__pycache__/
+*.pyc
+*.pyo
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# Streamlit config and logs
+.streamlit/
+
+# Temp Python files
+tempCodeRunnerFile.*
+*.log
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore image files if not needed
+*.png
+myenv/
+*.pyc
+__pycache__/

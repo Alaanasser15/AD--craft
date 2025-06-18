@@ -1,0 +1,5 @@
+[
+    {"name": "c_user", "value": "100006349421474", "domain": ".facebook.com"},
+    {"name": "xs", "value": "15%3Aw_iUWhCUWOEepw%3A2%3A1739478988%3A-1%3A6617%3A%3AAcUSKk1Fof-uPnSMHpMRi8_tvAqxltTi0f9hxt0ihQ", "domain": ".facebook.com"}
+  ]
+  
