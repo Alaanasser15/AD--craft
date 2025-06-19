@@ -1,16 +1,14 @@
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 import streamlit as st
+from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
-model_path = "models/sentiment"  # ده المجلد اللي فيه الموديل والملفات
+# المسار الصحيح للموديل (بعد حذف snapshots)
+model_path = "models/sentiment"
 
-# نحمل التوكنيزر والنموذج من المجلد
+# تحميل الموديل والتوكنيزر من الملفات المحلية
 tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(
-    model_path,
-    from_safetensors=True  # 💡 دي أهم سطر لازم يتكتب علشان البرنامج يعرف إن الوزنات من النوع safetensors
-)
+model = AutoModelForSequenceClassification.from_pretrained(model_path, from_safetensors=True)
 
-# نجهز الـ pipeline
+# بايبلاين التحليل
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 def sentiment_analyzer():
