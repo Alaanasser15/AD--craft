@@ -1,34 +1,32 @@
-import streamlit as st
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+import streamlit as st
 
-model_path = "models/sentiment"
+model_path = "models/sentiment"  # ده المجلد اللي فيه الموديل والملفات
 
-# ✅ تحميل النموذج من ملف .safetensors
+# نحمل التوكنيزر والنموذج من المجلد
 tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path, trust_remote_code=True)
+model = AutoModelForSequenceClassification.from_pretrained(
+    model_path,
+    from_safetensors=True  # 💡 دي أهم سطر لازم يتكتب علشان البرنامج يعرف إن الوزنات من النوع safetensors
+)
 
+# نجهز الـ pipeline
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 def sentiment_analyzer():
-    st.title('🧠 Sentiment Analyzer')
-    st.write("""
-        This app classifies the sentiment of the text as Positive or Negative.
-        Just type some text below and see the result!
-    """)
+    st.title("🧠 Sentiment Analyzer")
+    st.write("This app classifies your text as Positive or Negative sentiment.")
 
-    user_input = st.text_area('Enter your text here:')
+    user_input = st.text_area("Enter text here:")
 
     if user_input:
-        try:
-            result = analyzer(user_input)
-            sentiment = result[0]['label']
-            score = result[0]['score']
+        result = analyzer(user_input)
+        label = result[0]["label"]
+        score = result[0]["score"]
 
-            if sentiment == 'POSITIVE':
-                st.success(f"😊 Sentiment: Positive with a confidence of {score:.2f}")
-            elif sentiment == 'NEGATIVE':
-                st.error(f"😠 Sentiment: Negative with a confidence of {score:.2f}")
-            else:
-                st.info(f"😐 Sentiment: {sentiment} with a confidence of {score:.2f}")
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+        if label == "POSITIVE":
+            st.success(f"😊 Positive ({score:.2f} confidence)")
+        elif label == "NEGATIVE":
+            st.error(f"😠 Negative ({score:.2f} confidence)")
+        else:
+            st.info(f"😐 {label} ({score:.2f} confidence)")
