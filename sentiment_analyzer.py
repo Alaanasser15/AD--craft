@@ -1,8 +1,11 @@
 import streamlit as st
 from transformers import pipeline  # type: ignore
 
-# ✅ نستخدم الموديل المحلي بدل ما نحمله أونلاين
-analyzer = pipeline('sentiment-analysis', model="models/sentiment")
+# ✅ نستخدم المسار الصحيح للموديل المحلي
+analyzer = pipeline(
+    'sentiment-analysis',
+    model="models/sentiment/snapshots/714eb0fa89d2f80546fda750413ed43d93601a13"
+)
 
 # الدالة اللي هتستخدم داخل main.py
 def sentiment_analyzer():
