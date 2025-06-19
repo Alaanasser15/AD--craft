@@ -1,0 +1,32 @@
+# Core
+streamlit
+transformers
+torch
+requests
+Pillow
+qrcode
+safetensors
+
+# Web Scraping
+selenium
+webdriver-manager
+
+# Video Generation
+diffusers
+huggingface_hub
+
+
+# Optional: For scheduling or datetime formatting (built-in in most cases)
+# Not required in requirements.txt:
+# datetime
+# uuid
+# io
+# base64
+# os
+
+# إذا كنت بتستخدم ctransformers لـ Orca Mini (chatbot):
+ctransformers
+
+# If you're using a virtual environment, exclude it from Git and deployment
+# Add this to .gitignore:
+# myenv/
