@@ -1,13 +1,13 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-model_path = "models/sentiment"  # مجلد الموديل
+model_path = "models/sentiment"
 
-# ✅ تحميل الموديل والتوكنيزر من الملفات المحلية
+# ✅ تحميل التوكنيزر والموديل من ملفات محلية
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# ✅ بناء البايبلاين باستخدام الموديل المحلي
+# ✅ بناء البايبلاين
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 def sentiment_analyzer():
@@ -16,7 +16,6 @@ def sentiment_analyzer():
         This app classifies the sentiment of the text as Positive or Negative.
         Just type some text below and see the result!
     """)
-
     user_input = st.text_area('Enter your text here:')
 
     if user_input:
