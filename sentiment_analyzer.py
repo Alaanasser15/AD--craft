@@ -1,13 +1,12 @@
 import streamlit as st
-from transformers import pipeline, AutoModelForSequenceClassification, AutoTokenizer
-import torch
+from transformers import pipeline
 
-model_path = "models/sentiment"
-
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-
-analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer, device=0 if torch.cuda.is_available() else -1)
+# ✅ استخدمي المسار الصحيح بعد ما نزلنا بصيغة bin
+analyzer = pipeline(
+    'sentiment-analysis',
+    model="models/sentiment",
+    tokenizer="models/sentiment"
+)
 
 def sentiment_analyzer():
     st.title('🧠 Sentiment Analyzer')
@@ -21,6 +20,7 @@ def sentiment_analyzer():
     if user_input:
         try:
             result = analyzer(user_input)
+
             sentiment = result[0]['label']
             score = result[0]['score']
 
