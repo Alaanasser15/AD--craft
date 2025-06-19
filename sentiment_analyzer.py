@@ -1,17 +1,16 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# ✅ حددنا مسار الموديل المحلي
+# ✅ المسار المحلي للموديل
 model_path = "models/sentiment"
 
-# ✅ نحمل التوكنيزر والموديل من المسار المحلي
+# ✅ تحميل التوكنيزر والموديل
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# ✅ نبني البايبلاين باستخدام الموديل والتوكنيزر المحليين
+# ✅ إنشاء pipeline محلي
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# ✅ الدالة اللي هتستخدم في main.py
 def sentiment_analyzer():
     st.title('🧠 Sentiment Analyzer')
     st.write("This app classifies the sentiment of the text as Positive or Negative.")
@@ -31,4 +30,4 @@ def sentiment_analyzer():
             else:
                 st.info(f"😐 Sentiment: {label} ({score:.2f})")
         except Exception as e:
-            st.error(f"An error occurred: {e}")
+            st.error(f"❌ Error: {e}")
