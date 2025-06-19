@@ -1,8 +1,8 @@
 import streamlit as st
 from transformers import pipeline  # type: ignore
 
-# نعمل كائن التحليل بمسمى مختلف
-analyzer = pipeline('sentiment-analysis')
+# ✅ نستخدم الموديل المحلي بدل ما نحمله أونلاين
+analyzer = pipeline('sentiment-analysis', model="models/sentiment")
 
 # الدالة اللي هتستخدم داخل main.py
 def sentiment_analyzer():
