@@ -1,31 +1,35 @@
 import streamlit as st
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# المسار المحلي للموديل
-model_path = "models/sentiment"
+model_path = "models/sentiment"  # مجلد الموديل
 
-# تحميل التوكنيزر والموديل من الملفات المحلية
+# ✅ تحميل الموديل والتوكنيزر من الملفات المحلية
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForSequenceClassification.from_pretrained(model_path)
 
-# إنشاء كائن البايبلاين
+# ✅ بناء البايبلاين باستخدام الموديل المحلي
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-# دالة Streamlit
 def sentiment_analyzer():
-    st.title("🧠 Sentiment Analyzer")
-    st.write("This app classifies your text as Positive or Negative sentiment.")
+    st.title('🧠 Sentiment Analyzer')
+    st.write("""
+        This app classifies the sentiment of the text as Positive or Negative.
+        Just type some text below and see the result!
+    """)
 
-    user_input = st.text_area("Enter text here:")
+    user_input = st.text_area('Enter your text here:')
 
     if user_input:
-        result = analyzer(user_input)
-        label = result[0]["label"]
-        score = result[0]["score"]
+        try:
+            result = analyzer(user_input)
+            sentiment = result[0]['label']
+            score = result[0]['score']
 
-        if label == "POSITIVE":
-            st.success(f"😊 Positive ({score:.2f} confidence)")
-        elif label == "NEGATIVE":
-            st.error(f"😠 Negative ({score:.2f} confidence)")
-        else:
-            st.info(f"😐 {label} ({score:.2f} confidence)")
+            if sentiment == 'POSITIVE':
+                st.success(f"😊 Sentiment: Positive with a confidence of {score:.2f}")
+            elif sentiment == 'NEGATIVE':
+                st.error(f"😠 Sentiment: Negative with a confidence of {score:.2f}")
+            else:
+                st.info(f"😐 Sentiment: {sentiment} with a confidence of {score:.2f}")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
