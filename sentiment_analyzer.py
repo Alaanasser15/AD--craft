@@ -1,13 +1,16 @@
 import streamlit as st
-from transformers import pipeline  # type: ignore
+from transformers import pipeline, AutoModelForSequenceClassification, AutoTokenizer
+import torch
 
-# ✅ نستخدم المسار الصحيح للموديل المحلي
-analyzer = pipeline(
-    'sentiment-analysis',
-    model="models/sentiment/snapshots/714eb0fa89d2f80546fda750413ed43d93601a13"
-)
+# ✅ تحميل النموذج والتوكنيزر من المجلد المحلي
+model_path = "models/sentiment/snapshots/714eb0fa89d2f80546fda750413ed43d93601a13"
+model = AutoModelForSequenceClassification.from_pretrained(model_path)
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# الدالة اللي هتستخدم داخل main.py
+# ✅ تهيئة البايبلاين
+analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer, device=0 if torch.cuda.is_available() else -1)
+
+# ✅ واجهة ستريملت
 def sentiment_analyzer():
     st.title('🧠 Sentiment Analyzer')
     st.write("""
@@ -20,7 +23,6 @@ def sentiment_analyzer():
     if user_input:
         try:
             result = analyzer(user_input)
-
             sentiment = result[0]['label']
             score = result[0]['score']
 
