@@ -1,14 +1,14 @@
 import streamlit as st
 from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
 
-# ✅ حدد المسار للموديل المحلي
+# ✅ حدد مسار الموديل المحلي
 model_path = "models/sentiment"
 
-# ✅ تحميل التوكن والـ model من المسار المحلي
+# ✅ حمل التوكن والـ model مع استخدام safetensors
 tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
+model = AutoModelForSequenceClassification.from_pretrained(model_path, from_safetensors=True)
 
-# ✅ نستخدم pipeline بتحليل المشاعر
+# ✅ إنشاء pipeline
 analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
 def sentiment_analyzer():
