@@ -1,15 +1,8 @@
 import streamlit as st
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from transformers import pipeline
 
-# ✅ المسار المحلي للموديل
-model_path = "models/sentiment"
-
-# ✅ تحميل التوكنيزر والموديل
-tokenizer = AutoTokenizer.from_pretrained(model_path)
-model = AutoModelForSequenceClassification.from_pretrained(model_path)
-
-# ✅ إنشاء pipeline محلي
-analyzer = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+# ✅ استخدمي الموديل المرفوع على Hugging Face
+analyzer = pipeline("sentiment-analysis", model="alaanasserrr/ad-craft")
 
 def sentiment_analyzer():
     st.title('🧠 Sentiment Analyzer')
