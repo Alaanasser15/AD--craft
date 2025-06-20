@@ -3,7 +3,7 @@ import base64
 import os
 from ctransformers import AutoModelForCausalLM
 
-# Import all page components
+# ✅ Import all page components
 from image_scraper import scrape_google_images, display_images
 from sentiment_analyzer import sentiment_analyzer
 from qr_generator import generate_qr_page
@@ -13,14 +13,14 @@ from text_generator import generate_marketing_text
 from media_uploader import upload_media_page
 from preview_page import show_preview_page
 
-# Load and encode wallpaper background
+# ✅ Load and encode wallpaper background
 with open("Blue Futuristic Technology Background Instagram Story.png", "rb") as image_file:
     encoded_image = base64.b64encode(image_file.read()).decode()
 
-# Set the page configuration
+# ✅ Set Streamlit page configuration
 st.set_page_config(page_title="AD CRAFT", layout="wide")
 
-# Inject custom CSS
+# ✅ Custom CSS for background and theme
 st.markdown(f"""
     <style>
     .stApp {{
@@ -35,17 +35,15 @@ st.markdown(f"""
         background-color: rgba(0, 40, 80, 0.9);
         color: white !important;
     }}
-
     section[data-testid="stSidebar"] * {{
         color: white !important;
     }}
 
     .stTextInput > div > div > input,
     .stTextArea > div > textarea,
-    .stSlider > div,
+    .stNumberInput input,
     .stSelectbox > div,
     .stButton > button,
-    .stNumberInput input,
     label, .stSlider > label,
     .css-1cypcdb, .css-10trblm, .css-qcqlej,
     .css-1v3fvcr, .css-1y4p8pa, .css-1y4p8pa * {{
@@ -70,7 +68,7 @@ st.markdown(f"""
     </style>
 """, unsafe_allow_html=True)
 
-# Load the chatbot model
+# ✅ Load the chatbot model
 llm = AutoModelForCausalLM.from_pretrained(
     "zoltanctoth/orca_mini_3B-GGUF",
     model_file="orca-mini-3b.q4_0.gguf"
@@ -86,7 +84,7 @@ def get_prompt(instruction, history):
     context = ". ".join(history)
     return f"### System:\n{SYSTEM}. Context: {context}\n\n### User:\n{instruction}\n\n### Response:\n"
 
-# Sidebar navigation
+# ✅ Sidebar navigation
 st.sidebar.title("AD CRAFT Navigation")
 page = st.sidebar.radio("Navigate to a feature:", [
     "Write Marketing Content",
@@ -99,9 +97,9 @@ page = st.sidebar.radio("Navigate to a feature:", [
     "Preview and Submit Feedback"
 ])
 
-# 1. Marketing Text Generator
+# ✅ 1. Marketing Text Generator
 if page == "Write Marketing Content":
-    st.title("Write Marketing Content")
+    st.title("📝 Write Marketing Content")
     prompt = st.text_area("Describe your product or service:")
     max_length = st.slider("Maximum length of the generated content:", 50, 500, 150)
 
@@ -115,9 +113,9 @@ if page == "Write Marketing Content":
         else:
             st.warning("Enter a description.")
 
-# 2. Image Scraper
+# ✅ 2. Image Scraper
 elif page == "Find Images Online":
-    st.title("Find Images Online")
+    st.title("🖼️ Find Images Online")
     query = st.text_input("Enter a search term:")
     if query:
         urls = scrape_google_images(query)
@@ -127,9 +125,9 @@ elif page == "Find Images Online":
     if "image_urls" in st.session_state:
         display_images(st.session_state.image_urls)
 
-# 3. Video Generator
+# ✅ 3. Video Generator
 elif page == "Create a Video":
-    st.title("Create a Video")
+    st.title("🎥 Create a Video")
     prompt = st.text_input("Enter your video idea:")
     base = st.selectbox("Choose style:", ["Cartoon", "Realistic", "3d", "Anime"], index=1)
     motion = st.selectbox("Add motion effect (optional):", [
@@ -148,21 +146,21 @@ elif page == "Create a Video":
         else:
             st.error("Enter a prompt.")
 
-# 4. Media Upload Page
+# ✅ 4. Media Upload Page
 elif page == "Upload Your Media":
     upload_media_page()
 
-# 5. QR Code Generator
+# ✅ 5. QR Code Generator
 elif page == "Generate QR Code":
     generate_qr_page()
 
-# 6. Post Scheduler
+# ✅ 6. Post Scheduler
 elif page == "Schedule Your Post":
     schedule_post_page()
 
-# 7. Chat Assistant Page
+# ✅ 7. Chat Assistant Page
 elif page == "Ask Assistant":
-    st.title("Ask the Assistant")
+    st.title("💬 Ask the Assistant")
     user_input = st.text_input("Type your question here:")
 
     if st.button("Ask"):
@@ -180,10 +178,10 @@ elif page == "Ask Assistant":
         else:
             st.warning("Please enter a question.")
 
-    # FAQ Section in an expandable sidebar-like container
+    # Expandable FAQ Section
     st.markdown("---")
     with st.container():
-        st.markdown("### Common Marketing Questions")
+        st.markdown("### 📘 Common Marketing Questions")
         selected_faq = st.selectbox("Select a question:", [
             "What is a marketing funnel?",
             "How do I target the right audience?",
@@ -213,6 +211,6 @@ elif page == "Ask Assistant":
         if selected_faq:
             st.info(faq_answers[selected_faq])
 
-# 8. Final Preview Page
+# ✅ 8. Final Preview Page
 elif page == "Preview and Submit Feedback":
     show_preview_page()

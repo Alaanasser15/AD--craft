@@ -27,7 +27,7 @@ __pycache__/
 *.exe
 *.mp4
 *.safetensors
-*.bin
+# *.bin
 *.pt
 myenv/
 __pycache__/
