@@ -1,33 +1,6 @@
-# Ignore temporary files and cache
+*.bin
+*.gguf
 __pycache__/
 *.pyc
-*.pyo
-
-# VS Code settings
-.vscode/
-*.code-workspace
-
-# Streamlit config and logs
-.streamlit/
-
-# Temp Python files
-tempCodeRunnerFile.*
-*.log
-
-# OS-generated files
+.env
 .DS_Store
-Thumbs.db
-
-# Ignore image files if not needed
-*.png
-myenv/
-*.pyc
-__pycache__/
-*.rar
-*.exe
-*.mp4
-*.safetensors
-# *.bin
-*.pt
-myenv/
-__pycache__/

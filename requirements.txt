@@ -30,3 +30,13 @@ ctransformers
 # If you're using a virtual environment, exclude it from Git and deployment
 # Add this to .gitignore:
 # myenv/
+streamlit
+ctransformers
+transformers
+huggingface_hub
+Pillow
+requests
+opencv-python
+qrcode
+googletrans==4.0.0rc1
+streamlit-option-menu
