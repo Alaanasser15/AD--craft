@@ -8,7 +8,8 @@ from image_scraper import scrape_google_images, display_images
 from sentiment_analyzer import sentiment_analyzer
 from qr_generator import generate_qr_page
 from post_scheduler import schedule_post_page
-from video_generator import generate_video
+if os.environ.get("STREAMLIT_SERVER_PORT") != "8501":
+    from video_generator import generate_video
 from text_generator import generate_marketing_text
 from media_uploader import upload_media_page
 from preview_page import show_preview_page
