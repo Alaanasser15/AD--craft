@@ -13,6 +13,9 @@ from text_generator import generate_marketing_text
 from media_uploader import upload_media_page
 from preview_page import show_preview_page
 
+# ✅ Check if running on Streamlit Cloud
+IS_CLOUD = os.environ.get("STREAMLIT_SERVER_PORT") == "8501"
+
 # ✅ Load and encode wallpaper background
 with open("Blue Futuristic Technology Background Instagram Story.png", "rb") as image_file:
     encoded_image = base64.b64encode(image_file.read()).decode()
@@ -99,7 +102,7 @@ page = st.sidebar.radio("Navigate to a feature:", [
 
 # ✅ 1. Marketing Text Generator
 if page == "Write Marketing Content":
-    st.title("📝 Write Marketing Content")
+    st.title("🖍️ Write Marketing Content")
     prompt = st.text_area("Describe your product or service:")
     max_length = st.slider("Maximum length of the generated content:", 50, 500, 150)
 
@@ -128,23 +131,27 @@ elif page == "Find Images Online":
 # ✅ 3. Video Generator
 elif page == "Create a Video":
     st.title("🎥 Create a Video")
-    prompt = st.text_input("Enter your video idea:")
-    base = st.selectbox("Choose style:", ["Cartoon", "Realistic", "3d", "Anime"], index=1)
-    motion = st.selectbox("Add motion effect (optional):", [
-        "", "Zoom in", "Zoom out", "Tilt up", "Tilt down",
-        "Pan left", "Pan right", "Roll left", "Roll right"
-    ])
-    steps = st.slider("Video quality (steps):", min_value=1, max_value=8, value=4)
 
-    if st.button("Generate Video"):
-        if prompt:
-            with st.spinner("Generating video..."):
-                video_path = generate_video(prompt, base, motion, steps)
-                st.success("Video generated:")
-                st.video(video_path)
-                st.session_state.generated_video = video_path
-        else:
-            st.error("Enter a prompt.")
+    if IS_CLOUD:
+        st.warning("⚠️ Video/GIF generation is disabled on Streamlit Cloud due to resource limits. Please run the app locally to use this feature.")
+    else:
+        prompt = st.text_input("Enter your video idea:")
+        base = st.selectbox("Choose style:", ["Cartoon", "Realistic", "3d", "Anime"], index=1)
+        motion = st.selectbox("Add motion effect (optional):", [
+            "", "Zoom in", "Zoom out", "Tilt up", "Tilt down",
+            "Pan left", "Pan right", "Roll left", "Roll right"
+        ])
+        steps = st.slider("Video quality (steps):", min_value=1, max_value=8, value=4)
+
+        if st.button("Generate Video"):
+            if prompt:
+                with st.spinner("Generating video..."):
+                    video_path = generate_video(prompt, base, motion, steps)
+                    st.success("Video generated:")
+                    st.video(video_path)
+                    st.session_state.generated_video = video_path
+            else:
+                st.error("Enter a prompt.")
 
 # ✅ 4. Media Upload Page
 elif page == "Upload Your Media":
