@@ -1,8 +1,8 @@
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 import streamlit as st
-from transformers import pipeline
 
-# ✅ استخدمي الموديل المرفوع على Hugging Face
-analyzer = pipeline("sentiment-analysis", model="alaanasserrr/ad-craft")
+# ✅ موديل جاهز 100% ومضمون
+analyzer = pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
 
 def sentiment_analyzer():
     st.title('🧠 Sentiment Analyzer')
