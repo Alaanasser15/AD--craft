@@ -1,26 +1,28 @@
-# image_scraper.py
 import requests
 import streamlit as st
 
-PEXELS_API_KEY = "akPgXcx3oPV87FhSkiwQ8AO6tZsE8tOUacyL13wQh59QrAqXU5MiFT2L"  
+API_KEY = "akPgXcx3oPV87FhSkiwQ8AO6tZsE8tOUacyL13wQh59QrAqXU5MiFT2L"
 
 def scrape_google_images(query):
-    """Search Pexels for images based on the given query."""
+    """
+    Fetch image URLs using the Pexels API.
+    Returns a list of image URLs.
+    """
     url = f"https://api.pexels.com/v1/search?query={query}&per_page=12"
-    headers = {"Authorization": PEXELS_API_KEY}
+    headers = {"Authorization": API_KEY}
     response = requests.get(url, headers=headers)
 
     image_urls = []
     if response.status_code == 200:
         data = response.json()
         image_urls = [photo["src"]["medium"] for photo in data.get("photos", [])]
-    else:
-        st.error(f"Error fetching images: {response.status_code}")
 
     return image_urls
 
 def display_images(image_urls):
-    """Display image URLs in a grid of columns."""
+    """
+    Display image URLs in 3 columns.
+    """
     cols = st.columns(3)
     for i, img_url in enumerate(image_urls):
         cols[i % 3].image(img_url, use_column_width=True)

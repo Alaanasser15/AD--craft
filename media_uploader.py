@@ -1,18 +1,14 @@
 import streamlit as st
 
 def upload_media_page():
-    st.title("Upload Your Media")
-    
     uploaded_files = st.file_uploader(
-        "Upload images or videos for your ad:",
-        accept_multiple_files=True,
-        type=["jpg", "jpeg", "png", "mp4", "mov"]
+        "Upload your images or videos:", accept_multiple_files=True
     )
-    
     if uploaded_files:
-        st.success(f"You uploaded {len(uploaded_files)} file(s).")
+        st.success(f"{len(uploaded_files)} files uploaded successfully!")
+        # جهّزي قائمة فيها بيانات الملفات
+        file_data_list = []
         for file in uploaded_files:
-            if file.type.startswith("image"):
-                st.image(file, caption=file.name, use_column_width=True)
-            elif file.type.startswith("video"):
-                st.video(file)
+            file_bytes = file.read()
+            file_data_list.append({"data": file_bytes, "type": file.type})
+        st.session_state.uploaded_files = file_data_list
