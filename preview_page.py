@@ -1,43 +1,39 @@
+# preview_page.py
 import streamlit as st
 
 def show_preview_page():
-    st.title("🎯 Preview & Feedback")
+    st.title("📝 Preview and Submit Feedback")
 
-    # ✅ عرض النص التسويقي
-    if "generated_text" in st.session_state and st.session_state.generated_text:
-        st.subheader("📝 Generated Marketing Text:")
-        st.write(st.session_state.generated_text)
+    # عرض النصّ التسويقي
+    if "generated_text" in st.session_state:
+        st.markdown("#### Generated Marketing Content:")
+        st.text_area(
+            "Your Generated Text",
+            value=st.session_state.generated_text,
+            height=200
+        )
 
-    # ✅ عرض الصور المسترجعة من Pexels
-    if "image_urls" in st.session_state and st.session_state.image_urls:
-        st.subheader("🖼️ Selected Images:")
-        cols = st.columns(3)
-        for i, img_url in enumerate(st.session_state.image_urls):
-            cols[i % 3].image(img_url, use_column_width=True)
+    # عرض الصور المرفوعة
+    if "uploaded_files" in st.session_state:
+        st.markdown("#### Uploaded Media:")
+        for file in st.session_state.uploaded_files:
+            if file.type.startswith("image"):
+                st.image(file, caption=file.name, use_column_width=True)
+            elif file.type.startswith("video"):
+                st.video(file)
 
-    # ✅ عرض الفيديو المولَّد (في حال وجوده)
-    if "generated_video" in st.session_state:
-        st.subheader("🎥 Generated Video:")
-        st.video(st.session_state.generated_video)
+    # بالالين 🎈
+    st.balloons()
 
-    # ✅ عرض الملفات المرفوعة من المستخدم
-    if "uploaded_files" in st.session_state and st.session_state.uploaded_files:
-        st.subheader("📂 Uploaded Media:")
-        for file_name in st.session_state.uploaded_files:
-            st.write(f"- {file_name}")
-
-    # ✅ عرض QR إذا كان مولد
-    if "qr_code_path" in st.session_state and st.session_state.qr_code_path:
-        st.subheader("🔗 Generated QR Code:")
-        st.image(st.session_state.qr_code_path)
-
+    # Feedback
     st.markdown("---")
-
-    # ✅ مساحة الملاحظات
-    feedback = st.text_area("💭 Leave your feedback:")
-    if st.button("Submit Feedback"):
-        if feedback.strip():
-            st.success("🎉 Thank you for your feedback!")
+    st.markdown("#### Feedback Form")
+    feedback = st.text_area(
+        "Your feedback or additional comments:",
+        placeholder="Share your thoughts on the generated content and media."
+    )
+    if st.button("Submit"):
+        if feedback.strip() != "":
+            st.success("Thank you for your feedback!")
         else:
-            st.warning("⚠️ Please enter some feedback before submitting.")
-
+            st.warning("Please enter some feedback before submitting.")
