@@ -5,10 +5,12 @@ import streamlit as st
 API_KEY = "akPgXcx3oPV87FhSkiwQ8AO6tZsE8tOUacyL13wQh59QrAqXU5MiFT2L"
 
 def scrape_google_images(query):
-    # إذا كان المستخدم بيدور على modern academy
-    if "academy" in query.lower() or "maadi" in query.lower():
-        query = "Modern Academy Maadi Nabil Dabis"
-    url = f"https://api.pexels.com/v1/search?query={query}&per_page=12"
+    """
+    Fetch image URLs using the Pexels API.
+    Append specific search terms for Modern Academy.
+    """
+    search_terms = f"{query} Modern Academy Maadi Nabil Dabis Egypt campus"
+    url = f"https://api.pexels.com/v1/search?query={search_terms}&per_page=12"
     headers = {"Authorization": API_KEY}
     response = requests.get(url, headers=headers)
 
